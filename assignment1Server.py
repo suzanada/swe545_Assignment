@@ -1,20 +1,30 @@
 import SimpleXMLRPCServer
 import random
 
+
+server = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost",8000))
+exitGame= False
+
 def randomNumberGenerator():
     return random.randint(0,100)
 
 def comparison(sNumber,cNumber):
-    if sNumber > cNumber:
-        return "bigger than this"
-    elif sNumber < cNumber:
-        return "smaller than this"
+    global exitGame=False
+    if int(cNumber)<0 & int(cNumber)>100:
+        return "Please enter a valid number between 0 and 100"
     else:
-        return "You win, This is the number that was guessed"
+        if int(sNumber) > int(cNumber):
+            return "You should guess a number bigger than this.."
+        elif int(sNumber) < int(cNumber):
+            return "You should guess a number smaller than this.."
+        else:
+            return "You win, This is the correct number"
 
+            exitGame=True
 
-server = SimpleXMLRPCServer.SimpleXMLRPCServer(("localhost",8000))
 server.register_function(comparison)
 server.register_function(randomNumberGenerator)
-server.serve_forever()
+if exitGame= False:
+    server.serve_forever()
+
 
